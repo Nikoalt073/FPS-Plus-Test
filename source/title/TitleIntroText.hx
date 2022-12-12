@@ -1,4 +1,5 @@
-package title;
+
+packagepackage title;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -48,8 +49,8 @@ class TitleIntroText extends MusicBeatState
 		add(credGroup);
 		textGroup = new FlxGroup();
 
-		//blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		//credGroup.add(blackScreen);
+		// blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		// credGroup.add(blackScreen);
 
 		ngSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('newgrounds_logo'));
 		add(ngSpr);
@@ -62,7 +63,6 @@ class TitleIntroText extends MusicBeatState
 		Conductor.changeBPM(102);
 		FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.8);
 		TitleScreen.titleMusic = "freakyMenu";
-
 	}
 
 	function getIntroTextShit():Array<Array<String>>
@@ -144,8 +144,6 @@ class TitleIntroText extends MusicBeatState
 			textGroup.remove(textGroup.members[0], true);
 		}
 	}
-
-	
 
 	override function beatHit()
 	{

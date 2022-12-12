@@ -17,7 +17,9 @@ class FreeplayState extends MusicBeatState
 	var songs:Array<SongMetadata> = [];
 
 	public static var startingSelection:Int = 0;
+
 	var selector:FlxText;
+
 	public static var curSelected:Int = 0;
 	static var curDifficulty:Int = 1;
 
@@ -33,9 +35,8 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-
 		openfl.Lib.current.stage.frameRate = 144;
-		
+
 		curSelected = 0;
 
 		songs.push(new SongMetadata("Tutorial", 1, 'gf'));
@@ -59,7 +60,6 @@ class FreeplayState extends MusicBeatState
 
 		if (StoryMenuState.weekUnlocked[6] || isDebug)
 			addWeek(['Senpai', 'Roses', 'Thorns'], 6, ['senpai', 'senpai-angry', 'spirit']);
-
 
 		// LOAD CHARACTERS
 

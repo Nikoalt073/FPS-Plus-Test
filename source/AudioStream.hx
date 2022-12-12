@@ -11,10 +11,10 @@ import openfl.Assets;
 	Uses OpenFL audio functions instead of HaxeFlixel for better memory usage.
 	Written by Smokey.
 **/
-
 class AudioStream
 {
 	public var sound:Sound;
+
 	var channel:SoundChannel;
 	var fadeTween:FlxTween;
 	var volume:Float = 1;

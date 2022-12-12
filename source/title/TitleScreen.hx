@@ -24,18 +24,17 @@ import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
-//import polymod.Polymod;
 
+// import polymod.Polymod;
 using StringTools;
 
 class TitleScreen extends MusicBeatState
 {
-
-	public static var titleMusic:String = "klaskiiLoop"; 
+	public static var titleMusic:String = "klaskiiLoop";
 
 	override public function create():Void
 	{
-		//Polymod.init({modRoot: "mods", dirs: ['introMod']});
+		// Polymod.init({modRoot: "mods", dirs: ['introMod']});
 
 		// DEBUG BULLSHIT
 
@@ -73,13 +72,17 @@ class TitleScreen extends MusicBeatState
 		// titleText.screenCenter(X);
 		add(titleText);
 
-		if(FlxG.sound.music == null){
+		if (FlxG.sound.music == null)
+		{
 			FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
 		}
-		else{
-			if(!FlxG.sound.music.playing){
+		else
+		{
+			if (!FlxG.sound.music.playing)
+			{
 				FlxG.sound.playMusic(Paths.music(titleMusic), 0.75);
-				switch(titleMusic){
+				switch (titleMusic)
+				{
 					case "klaskiiLoop":
 						Conductor.changeBPM(158);
 					case "freakyMenu":
@@ -87,11 +90,10 @@ class TitleScreen extends MusicBeatState
 				}
 			}
 		}
-		
+
 		FlxG.camera.flash(FlxColor.WHITE, 1);
 
 		super.create();
-
 	}
 
 	var logoBl:FlxSprite;
@@ -104,7 +106,7 @@ class TitleScreen extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		Conductor.songPosition = FlxG.sound.music.time;
-			// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
+		// FlxG.watch.addQuick('amp', FlxG.sound.music.amplitude);
 
 		if (FlxG.keys.justPressed.F)
 		{
@@ -113,7 +115,8 @@ class TitleScreen extends MusicBeatState
 
 		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
 
-		if(!transitioning && controls.BACK){
+		if (!transitioning && controls.BACK)
+		{
 			System.exit(0);
 		}
 
@@ -151,5 +154,4 @@ class TitleScreen extends MusicBeatState
 
 		FlxG.log.add(curBeat);
 	}
-
 }

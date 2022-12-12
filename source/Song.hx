@@ -82,6 +82,7 @@ class Song
 		swagShit.validScore = true;
 		return swagShit;
 	}
+
 	public static function parseEventJSON(rawJson:String):SongEvents
 	{
 		var swagShit:SongEvents = cast Json.parse(rawJson).events;
