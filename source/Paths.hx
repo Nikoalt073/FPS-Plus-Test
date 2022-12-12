@@ -142,7 +142,7 @@ class Paths
 				return imagesCache.get(path);
 			}
 			else
-				return FlxGraphic.fromBitmapData(Assets.getBitmapData(path, false);
+				return FlxGraphic.fromBitmapData(Assets.getBitmapData(path, false));
 		}
 		else
 			trace('$path is null!');
