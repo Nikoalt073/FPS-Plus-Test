@@ -132,7 +132,9 @@ class CacheSettings extends MusicBeatState
 				state = "select";
 		}
 
-		if (FlxG.keys.justPressed.ANY)
+		super.update(elapsed);
+
+		if (controls.LEFT_P || controls.RIGHT_P || controls.UP_P || controls.DOWN_P || controls.ACCEPT || FlxG.keys.justPressed.ANY)
 			textUpdate();
 	}
 
