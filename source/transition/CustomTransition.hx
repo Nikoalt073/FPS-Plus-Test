@@ -1,5 +1,4 @@
-
-packagepackagepackagepackage transition;
+package transition;
 
 import flixel.FlxState;
 import flixel.FlxG;
