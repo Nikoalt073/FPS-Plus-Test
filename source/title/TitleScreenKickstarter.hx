@@ -43,8 +43,11 @@ class TitleScreenKickstarter extends MusicBeatState
 
 		persistentUpdate = true;
 
-		var bg = new VideoHandler();
-		bg.playMP4(Paths.video("titleKickBG"), null, true);
+		var bg:VideoSprite = new VideoSprite();
+		bg.bitmap.canSkip = false;
+		bg.bitmap.canUseSound = false;
+		bg.finishCallback = next;
+		bg.playVideo(Paths.video('klaskiiTitle'));
 
 		logoBl = new FlxSprite(-150, -100);
 		logoBl.frames = Paths.getSparrowAtlas("logoBumpin2");
