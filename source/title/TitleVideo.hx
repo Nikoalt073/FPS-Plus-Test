@@ -19,17 +19,18 @@ class TitleVideo extends FlxState
 			var video:VideoHandler = new VideoHandler();
 			video.finishCallback = next;
 			video.playVideo(Paths.video('klaskiiTitle'));
+		}
 		else
 		{
 			next();
 		}
-		}
-
-		function next():Void
-		{
-			FlxG.camera.flash(FlxColor.WHITE, 60);
-			FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
-			Conductor.changeBPM(158);
-			FlxG.switchState(new TitleScreen());
-		}
 	}
+
+	function next():Void
+	{
+		FlxG.camera.flash(FlxColor.WHITE, 60);
+		FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
+		Conductor.changeBPM(158);
+		FlxG.switchState(new TitleScreen());
+	}
+}
