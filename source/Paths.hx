@@ -10,8 +10,8 @@ class Paths
 {
 	public static final extensions:Map<String, String> = ["image" => "png", "audio" => "ogg", "video" => "mp4"];
 
-	private var imagesCache:Map<String, FlxGraphic> = [];
-	private var soundsCache:Map<String, Sound> = [];
+	private static var imagesCache:Map<String, FlxGraphic> = [];
+	private static var soundsCache:Map<String, Sound> = [];
 
 	public static function clearCachedAssets(type:String = 'none'):Void
 	{
