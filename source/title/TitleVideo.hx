@@ -18,8 +18,7 @@ class TitleVideo extends FlxState
 		{
 			var video:VideoHandler = new VideoHandler();
 			video.finishCallback = next;
-			video.playVideo(SUtil.getStorageDirectory() + Paths.video('klaskiiTitle'));
-		}
+			video.playVideo(Paths.video('klaskiiTitle'));
 		else
 		{
 			next();
