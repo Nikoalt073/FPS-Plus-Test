@@ -1,104 +1,83 @@
 package;
 
-import openfl.display3D.textures.RectangleTexture;
-import openfl.display3D.textures.Texture;
-import openfl.Assets;
-import lime.utils.Assets as LimeAssets;
+import openfl.Lib;
 import openfl.display.BitmapData;
-import flixel.FlxG;
-import openfl.display3D.Context3DTextureFormat;
-import openfl.display3D.Context3D;
-
-using StringTools;
+import openfl.display3D.textures.Texture;
+import openfl.utils.Assets;
 
 /**
 	Creates textures that exist only in VRAM and not standard RAM.
 	Originally written by Smokey, additional developement by Rozebud.
 **/
-
 class GPUBitmap
 {
-	static var trackedTextures:Array<TexAsset> = new Array<TexAsset>();
+	private var gpuCache:Map<String, Texture> = [];
 
 	/**
-
-		* Creates BitmapData for a sprite and deletes the reference stored in RAM leaving only the texture in VRAM.
-		*
-		* @param   path                The file path.
-		* @param   texFormat           The texture format.
-		* @param   optimizeForRender   Generates mipmaps.
-		* @param   cachekey            Key for the Texture Buffer cache. 
-		*
+	 * Creates a `BitmapData` for a `IMAGE` and deletes the reference stored in RAM leaving only the texture in VRAM.
+	 * 
+	 * @param path The file path.
+	 * @param optimized Generates mipmaps.
+	 *
+	 * @return A `BitmapData` object that uses the loaded texture from the VRAM.
 	 */
-	public static function create(path:String, texFormat:Context3DTextureFormat = BGRA, optimizeForRender:Bool = false, ?_cachekey:String):BitmapData
+	public static function create(path:String, optimized:Bool = true):BitmapData
 	{
-		if (_cachekey == null)
-			_cachekey = path;
-
-		for (tex in trackedTextures){
-			if (tex.cacheKey == _cachekey){
-				//trace('Texture $_cachekey already exists! Reusing existing tex');
-				return BitmapData.fromTexture(tex.texture);
-			}
-		}
-
-		//trace('creating new texture');
-		var bmp = Assets.getBitmapData(path, false);
-		var _texture = FlxG.stage.context3D.createTexture(bmp.width, bmp.height, texFormat, optimizeForRender);
-		_texture.uploadFromBitmapData(bmp);
-		bmp.dispose();
-		bmp.disposeImage();
-		var trackedTex = new TexAsset(_texture, _cachekey);
-		trackedTextures.push(trackedTex);
-		return BitmapData.fromTexture(_texture);
-	}
-
-	public static function disposeAllTextures():Void
-	{
-		var counter:Int = 0;
-		for (texture in trackedTextures){
-			texture.texture.dispose();
-			trackedTextures.remove(texture);
-			counter++;
-		}
-		//trace('Disposed $counter textures');
-	}
-
-	public static function disposeTexturesByKey(key:String)
-	{
-		var counter:Int = 0;
-		for (i in 0...trackedTextures.length)
+		if (Assets.exists(path, IMAGE))
 		{
-			if (trackedTextures[i].cacheKey.contains(key))
+			if (!gpuCache.exists(path))
 			{
-				trackedTextures[i].texture.dispose();
-				trackedTextures.remove(trackedTextures[i]);
-				counter++;
+				var bitmapData:BitmapData = Assets.getBitmapData(path, false);
+
+				var texture:Texture = Lib.current.stage.context3D.createTexture(bitmapData.width, bitmapData.height, BGRA, optimized, 0);
+				texture.uploadFromBitmapData(bitmapData);
+
+				if (bitmapData != null)
+				{
+					bitmapData.dispose();
+					bitmapData.disposeImage();
+					bitmapData = null;
+				}
+
+				gpuCache.set(path, texture);
 			}
+			else
+				trace('$path is already loaded!');
+
+			return BitmapData.fromTexture(gpuCache.get(path));
 		}
-		//trace('Disposed $counter textures using key $key');
+		else
+			trace('$path is null!');
+
+		return null;
 	}
 
-	public static function disposeAll()
+	public static function dispose(type:DisposeType):Void
 	{
-		for (i in 0...trackedTextures.length)
+		for (path in gpuCache.keys())
 		{
-			trackedTextures[i].texture.dispose();
+			switch (type)
+			{
+				case ALL:
+					var obj:Null<Texture> = gpuCache.get(path);
+					obj.dispose();
+					obj = null;
+					gpuCache.remove(path);
+				case KEY(key):
+					var obj:Null<Texture> = gpuCache.get(key);
+					if (gpuCache.exists(key) && obj != null)
+					{
+						obj.dispose();
+						obj = null;
+						gpuCache.remove(key);
+					}
+			}
 		}
-
-		trackedTextures = new Array<TexAsset>();
-
 	}
 }
 
-class TexAsset
+enum DisposeType
 {
-	public var texture:Texture;
-	public var cacheKey:String;
-
-	public function new(texture:Texture, cacheKey:String)
-	{
-		this.texture = texture;
-		this.cacheKey = cacheKey;
-	}
+	ALL;
+	KEY(key:String);
 }
