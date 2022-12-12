@@ -137,7 +137,7 @@ class Paths
 					imagesCache.set(path, graphic);
 				}
 				else
-					trace('$path is already loaded!');
+					trace('$path is already loaded to the cache!');
 
 				return imagesCache.get(path);
 			}
