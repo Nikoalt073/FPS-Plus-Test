@@ -7,6 +7,7 @@ import openfl.system.System;
 
 class Main extends Sprite
 {
+	public static var framerate:Int = #if desktop 144 #else 60 #end;
 	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
 
@@ -20,9 +21,9 @@ class Main extends Sprite
 		#end
 
 		#if (flixel >= "5.0.0")
-		addChild(new FlxGame(1280, 720, Startup, 144, 144, true));
+		addChild(new FlxGame(1280, 720, Startup, framerate, framerate, true));
 		#else
-		addChild(new FlxGame(1280, 720, Startup, 1, 144, 144, true));
+		addChild(new FlxGame(1280, 720, Startup, 1, framerate, framerate, true));
 		#end
 
 		addChild(new Overlay(10, 3));
