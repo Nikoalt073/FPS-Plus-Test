@@ -271,7 +271,7 @@ class ConfigMenu extends MusicBeatState
 
 					accuracyType = accuracyTypes[accuracyTypeInt];
 				case 2: // FPS Cap
-					#if desktop
+					#if !web
 					if (controls.RIGHT_P || controls.LEFT_P || controls.ACCEPT)
 					{
 						FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -438,7 +438,7 @@ class ConfigMenu extends MusicBeatState
 				case 10: // Preload settings
 					if (controls.ACCEPT)
 					{
-						#if desktop
+						#if !web
 						FlxG.sound.play(Paths.sound('scrollMenu'));
 						canChangeItems = false;
 						writeToConfig();
