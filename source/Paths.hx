@@ -38,7 +38,7 @@ class Paths
 				var obj:Sound = Assets.cache.getSound(key);
 				if (obj != null && soundsCache.exists(key))
 				{
-					Assets.cache.removeSound(key);
+					Assets.cache.clear(key);
 					obj.close();
 					soundsCache.remove(key);
 				}
