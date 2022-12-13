@@ -16,10 +16,14 @@ class Main extends Sprite
 	{
 		super();
 
+		SUtil.uncaughtErrorHandler();
+
 		#if sys
 		novid = Sys.args().contains("-novid");
 		flippymode = Sys.args().contains("-flippymode");
 		#end
+
+		SUtil.checkPermissions();
 
 		#if (flixel >= "5.0.0")
 		addChild(new FlxGame(1280, 720, Startup, framerate, framerate, true));
