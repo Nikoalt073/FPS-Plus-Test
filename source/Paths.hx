@@ -142,7 +142,7 @@ class Paths
 				return imagesCache.get(path);
 			}
 			else
-				return FlxGraphic.fromBitmapData(Assets.getBitmapData(path, false));
+				return FlxGraphic.fromAssetKey(path);
 		}
 		else
 			trace('$path is null!');
@@ -164,7 +164,7 @@ class Paths
 				return soundsCache.get(path);
 			}
 			else
-				return Assets.getSound(path, false);
+				return Assets.getSound(path);
 		}
 		else
 			trace('$path is null!');
