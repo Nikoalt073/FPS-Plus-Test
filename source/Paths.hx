@@ -33,11 +33,13 @@ class Paths
 		}
 		else if (type == 'music')
 		{
-			for (key in Assets.cache.sound.keys())
+			for (key in Assets.cache.getSoundKeys())
 			{
-				if (Assets.cache.sound.exists(key) && soundsCache.exists(key))
+				var obj:Sound = Assets.cache.getSound(key);
+				if (obj != null && soundsCache.exists(key))
 				{
-					Assets.cache.clear(key);
+					Assets.cache.removeSound(key);
+					obj.close();
 					soundsCache.remove(key);
 				}
 			}
