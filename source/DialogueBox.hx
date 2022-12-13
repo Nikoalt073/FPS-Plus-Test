@@ -175,7 +175,7 @@ class DialogueBox extends FlxSpriteGroup
 		#if mobile
 		for (touch in FlxG.touches.list)
 			if (touch.justPressed)
-				pressedEnter = true;
+				pressedAny = true;
 		#end
 
 		if (pressedAny)
