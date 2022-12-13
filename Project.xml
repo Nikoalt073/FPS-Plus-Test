@@ -51,6 +51,7 @@
 	<haxelib name="flixel-ui" />
 
 	<!--Another Libraries-->
+	<haxelib name="extension-androidtools" if="android" />
 	<haxelib name="hxCodec" if="desktop || android" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
