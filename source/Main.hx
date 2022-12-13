@@ -7,7 +7,8 @@ import openfl.system.System;
 
 class Main extends Sprite
 {
-	public static var framerate:Int = #if desktop 144 #else 60 #end;
+	public static final framerate:Int = #if desktop 144 #else 60 #end;
+
 	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
 
