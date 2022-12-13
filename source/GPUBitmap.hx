@@ -11,7 +11,7 @@ import openfl.utils.Assets;
 **/
 class GPUBitmap
 {
-	private var gpuCache:Map<String, Texture> = [];
+	private static var textureCache:Map<String, Texture> = [];
 
 	/**
 	 * Creates a `BitmapData` for a `IMAGE` and deletes the reference stored in RAM leaving only the texture in VRAM.
@@ -25,7 +25,7 @@ class GPUBitmap
 	{
 		if (Assets.exists(path, IMAGE))
 		{
-			if (!gpuCache.exists(path))
+			if (!textureCache.exists(path))
 			{
 				var bitmapData:BitmapData = Assets.getBitmapData(path, false);
 
@@ -39,12 +39,12 @@ class GPUBitmap
 					bitmapData = null;
 				}
 
-				gpuCache.set(path, texture);
+				textureCache.set(path, texture);
 			}
 			else
 				trace('$path is already loaded!');
 
-			return BitmapData.fromTexture(gpuCache.get(path));
+			return BitmapData.fromTexture(textureCache.get(path));
 		}
 		else
 			trace('$path is null!');
@@ -54,22 +54,22 @@ class GPUBitmap
 
 	public static function dispose(type:DisposeType):Void
 	{
-		for (path in gpuCache.keys())
+		for (path in textureCache.keys())
 		{
 			switch (type)
 			{
 				case ALL:
-					var obj:Null<Texture> = gpuCache.get(path);
+					var obj:Null<Texture> = textureCache.get(path);
 					obj.dispose();
 					obj = null;
-					gpuCache.remove(path);
+					textureCache.remove(path);
 				case KEY(key):
-					var obj:Null<Texture> = gpuCache.get(key);
-					if (gpuCache.exists(key) && obj != null)
+					var obj:Null<Texture> = textureCache.get(key);
+					if (textureCache.exists(key) && obj != null)
 					{
 						obj.dispose();
 						obj = null;
-						gpuCache.remove(key);
+						textureCache.remove(key);
 					}
 			}
 		}

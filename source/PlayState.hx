@@ -269,8 +269,8 @@ class PlayState extends MusicBeatState
 
 		eventList.sort(sortByEventStuff);
 
-		FlxG.sound.cache(Paths.inst(SONG.song));
-		FlxG.sound.cache(Paths.voices(SONG.song));
+		Paths.inst(SONG.song);
+		Paths.voices(SONG.song);
 
 		if (Config.noFpsCap)
 			openfl.Lib.current.stage.frameRate = 999;

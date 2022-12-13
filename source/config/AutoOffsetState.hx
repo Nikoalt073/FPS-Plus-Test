@@ -48,10 +48,10 @@ class AutoOffsetState extends MusicBeatState
 		customTransOut = new WeirdBounceOut(0.6);
 
 		// Cache the 3 2 1 go
-		FlxG.sound.cache(Paths.sound('intro3' + (easterEgg ? "-pixel" : "")));
-		FlxG.sound.cache(Paths.sound('intro2' + (easterEgg ? "-pixel" : "")));
-		FlxG.sound.cache(Paths.sound('intro1' + (easterEgg ? "-pixel" : "")));
-		FlxG.sound.cache(Paths.sound('introGo' + (easterEgg ? "-pixel" : "")));
+		Paths.sound('intro3' + (easterEgg ? "-pixel" : ""));
+		Paths.sound('intro2' + (easterEgg ? "-pixel" : ""));
+		Paths.sound('intro1' + (easterEgg ? "-pixel" : ""));
+		Paths.sound('introGo' + (easterEgg ? "-pixel" : ""));
 
 		// Easter egg check
 		switch (forceEasterEgg)
