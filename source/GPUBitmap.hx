@@ -11,7 +11,7 @@ import openfl.utils.Assets;
 **/
 class GPUBitmap
 {
-	private static var IAssetCache:Map<String, Texture> = [];
+	private static var textureCache:Map<String, Texture> = [];
 
 	/**
 	 * Creates a `BitmapData` for a `IMAGE` and deletes the reference stored in RAM leaving only the texture in VRAM.
