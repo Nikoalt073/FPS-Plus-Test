@@ -24,7 +24,10 @@ class Paths
 				if (obj != null && imagesCache.exists(key))
 				{
 					GPUBitmap.dispose(KEY(key));
-					Assets.cache.clear(key);
+
+					if (Assets.cache.hasBitmapData(key))
+						Assets.cache.removeBitmapData(key);
+
 					FlxG.bitmap._cache.remove(key);
 					obj.destroy();
 					imagesCache.remove(key);
@@ -38,7 +41,7 @@ class Paths
 				var obj:Sound = Assets.cache.getSound(key);
 				if (obj != null && soundsCache.exists(key))
 				{
-					Assets.cache.clear(key);
+					Assets.cache.removeSound(key);
 					obj.close();
 					soundsCache.remove(key);
 				}
