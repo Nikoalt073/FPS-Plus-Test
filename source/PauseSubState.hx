@@ -6,8 +6,10 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.system.FlxSound;
 import flixel.util.FlxColor;
+#if sys
 import sys.thread.Mutex;
 import sys.thread.Thread;
+#end
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -18,7 +20,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	var pauseMusic:FlxSound;
 
+	#if sys
 	var mutex:Mutex;
+	#end
 
 	public function new(x:Float, y:Float)
 	{
@@ -41,16 +45,23 @@ class PauseSubState extends MusicBeatSubstate
 			menuItems.insert(1, "Restart Section");
 		}
 
+		#if sys
 		mutex = new Mutex();
 		Thread.create(function()
 		{
 			mutex.acquire();
 			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic.volume = 0;
 			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 			FlxG.sound.list.add(pauseMusic);
-			pauseMusic.volume = 0;
 			mutex.release();
 		});
+		#else
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+		pauseMusic.volume = 0;
+		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		FlxG.sound.list.add(pauseMusic);
+		#end
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0.6;
@@ -75,7 +86,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if (pauseMusic != null && pauseMusic.volume < 0.5)
+		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.05 * elapsed;
 
 		super.update(elapsed);
