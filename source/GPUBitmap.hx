@@ -65,7 +65,7 @@ class GPUBitmap
 					textureCache.remove(path);
 				case KEY(key):
 					var obj:Null<Texture> = textureCache.get(key);
-					if (IAssetCache.exists(key) && obj != null)
+					if (textureCache.exists(key) && obj != null)
 					{
 						obj.dispose();
 						obj = null;
