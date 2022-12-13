@@ -1,5 +1,4 @@
-
-packagepackage title;
+package title;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -92,7 +91,13 @@ class TitleIntroText extends MusicBeatState
 			FlxG.fullscreen = !FlxG.fullscreen;
 		}
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
+		var pressedEnter:Bool = controls.ACCEPT || controls.PAUSE;
+
+		#if mobile
+		for (touch in FlxG.touches.list)
+			if (touch.justPressed)
+				pressedEnter = true;
+		#end
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
