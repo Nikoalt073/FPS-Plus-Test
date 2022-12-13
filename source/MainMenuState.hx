@@ -31,7 +31,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		openfl.Lib.current.stage.frameRate = 144;
+		openfl.Lib.current.stage.frameRate = Main.framerate;
 
 		if (!FlxG.sound.music.playing)
 		{
