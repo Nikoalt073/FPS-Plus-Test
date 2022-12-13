@@ -12,7 +12,9 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
 import openfl.system.System;
+#if sys
 import sys.thread.Thread;
+#end
 
 // import openfl.utils.Future;
 // import flixel.addons.util.FlxAsyncLoop;
