@@ -11,7 +11,7 @@ import openfl.utils.Assets;
 **/
 class GPUBitmap
 {
-	private static var textureCache:Map<String, Texture> = [];
+	private static var IAssetCache:Map<String, Texture> = [];
 
 	/**
 	 * Creates a `BitmapData` for a `IMAGE` and deletes the reference stored in RAM leaving only the texture in VRAM.
@@ -65,7 +65,7 @@ class GPUBitmap
 					textureCache.remove(path);
 				case KEY(key):
 					var obj:Null<Texture> = textureCache.get(key);
-					if (gpuCache.exists(key) && obj != null)
+					if (IAssetCache.exists(key) && obj != null)
 					{
 						obj.dispose();
 						obj = null;
