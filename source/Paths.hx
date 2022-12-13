@@ -17,16 +17,13 @@ class Paths
 	{
 		if (type == 'graphics')
 		{
-			GPUBitmap.dispose(ALL);
-
 			@:privateAccess
 			for (key in FlxG.bitmap._cache.keys())
 			{
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
 				if (obj != null && imagesCache.exists(key))
 				{
-					Assets.cache.removeBitmapData(key);
-					Assets.cache.clearBitmapData(key);
+					GPUBitmap.dispose(KEY(key));
 					Assets.cache.clear(key);
 					FlxG.bitmap._cache.remove(key);
 					obj.destroy();
@@ -36,12 +33,10 @@ class Paths
 		}
 		else if (type == 'music')
 		{
-			for (key in Assets.cache.getSoundKeys())
+			for (key in Assets.cache.sound.keys())
 			{
-				if (Assets.cache.hasSound(key) && soundsCache.exists(key))
+				if (Assets.cache.sound.exists(key) && soundsCache.exists(key))
 				{
-					Assets.cache.removeSound(key);
-					Assets.cache.clearSounds(key);
 					Assets.cache.clear(key);
 					soundsCache.remove(key);
 				}
