@@ -585,7 +585,7 @@ class ConfigMenu extends MusicBeatState
 				return ": " + offsetValue;
 			case 1:
 				return ": " + accuracyType;
-			case 2: #if desktop return ": " + genericOnOff[noCapValue ? 0 : 1]; #else return ": disabled"; #end
+			case 2: #if !web return ": " + genericOnOff[noCapValue ? 0 : 1]; #else return ": disabled"; #end
 			case 3:
 				return ": " + randomTapTypes[randomTapValue];
 			case 4:
