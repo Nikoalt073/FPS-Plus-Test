@@ -12,8 +12,10 @@ class Paths
 {
 	public static final extensions:Map<String, String> = ["image" => "png", "audio" => "ogg", "video" => "mp4"];
 
-	private static var imagesCache:Map<String, FlxGraphic> = [];
-	private static var soundsCache:Map<String, Sound> = [];
+	private static var assetsCache:Map<String, Map<String, Any>> = [
+		"graphics" => [],
+		"sounds" => []
+	];
 
 	public static function clearNonCachedAssets(type:String = 'none'):Void
 	{
@@ -23,7 +25,7 @@ class Paths
 			for (key in FlxG.bitmap._cache.keys())
 			{
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && (!imagesCache.exists(key) || (obj.useCount <= 0 && !obj.persist && obj.destroyOnNoUse)))
+				if (obj != null && (!assetsCache["graphics"].exists(key) || (obj.useCount <= 0 && !obj.persist && obj.destroyOnNoUse)))
 				{
 					if (Assets.cache.hasBitmapData(key))
 						Assets.cache.removeBitmapData(key);
@@ -33,15 +35,14 @@ class Paths
 				}
 			}
 		}
-		else if (type == 'music')
+		else if (type == 'sounds')
 		{
 			for (key in Assets.cache.getSoundKeys())
 			{
 				var obj:Sound = Assets.cache.getSound(key);
-				if (obj != null && !soundsCache.exists(key))
+				if (obj != null && !assetsCache["sounds"].exists(key))
 				{
 					Assets.cache.removeSound(key);
-					soundsCache.remove(key);
 					obj.close();
 				}
 			}
@@ -49,7 +50,7 @@ class Paths
 		else if (type == 'none')
 			trace('no unused assets clearing!');
 
-		if (type == 'graphics' || type == 'music')
+		if (type == 'graphics' || type == 'sounds')
 			System.gc();
 	}
 
@@ -61,7 +62,7 @@ class Paths
 			for (key in FlxG.bitmap._cache.keys())
 			{
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && imagesCache.exists(key))
+				if (obj != null && assetsCache["graphics"].exists(key))
 				{
 					#if desktop
 					GPUBitmap.dispose(KEY(key));
@@ -71,20 +72,20 @@ class Paths
 						Assets.cache.removeBitmapData(key);
 
 					FlxG.bitmap._cache.remove(key);
-					imagesCache.remove(key);
+					assetsCache["graphics"].remove(key);
 					obj = FlxDestroyUtil.destroy(obj);
 				}
 			}
 		}
-		else if (type == 'music')
+		else if (type == 'sounds')
 		{
 			for (key in Assets.cache.getSoundKeys())
 			{
 				var obj:Sound = Assets.cache.getSound(key);
-				if (obj != null && soundsCache.exists(key))
+				if (obj != null && assetsCache["sounds"].exists(key))
 				{
 					Assets.cache.removeSound(key);
-					soundsCache.remove(key);
+					assetsCache["sounds"].remove(key);
 					obj.close();
 				}
 			}
@@ -92,7 +93,7 @@ class Paths
 		else if (type == 'none')
 			trace('no cached assets clearing!');
 
-		if (type == 'graphics' || type == 'music')
+		if (type == 'graphics' || type == 'sounds')
 			System.gc();
 	}
 
@@ -174,17 +175,17 @@ class Paths
 		{
 			if (addToCache)
 			{
-				if (!imagesCache.exists(path))
+				if (!assetsCache["graphics"].exists(path))
 				{
 					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 					graphic.persist = true;
 					graphic.destroyOnNoUse = false;
-					imagesCache.set(path, graphic);
+					assetsCache["graphics"].set(path, graphic);
 				}
 				else
 					trace('$path is already loaded to the cache!');
 
-				return imagesCache.get(path);
+				return assetsCache["graphics"].get(path);
 			}
 			else
 				return path;
@@ -201,12 +202,12 @@ class Paths
 		{
 			if (addToCache)
 			{
-				if (!soundsCache.exists(path))
-					soundsCache.set(path, Assets.getSound(path));
+				if (!assetsCache["sounds"].exists(path))
+					assetsCache["sounds"].set(path, Assets.getSound(path));
 				else
 					trace('$path is already loaded to the cache!');
 
-				return soundsCache.get(path);
+				return assetsCache["sounds"].get(path);
 			}
 			else
 				return Assets.getSound(path);
