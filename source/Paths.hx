@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.util.FlxDestroyUtil;
 import openfl.media.Sound;
 import openfl.utils.Assets;
 
@@ -29,7 +30,7 @@ class Paths
 						Assets.cache.removeBitmapData(key);
 
 					FlxG.bitmap._cache.remove(key);
-					obj.destroy();
+					obj = FlxDestroyUtil.destroy(obj);
 					imagesCache.remove(key);
 				}
 			}
