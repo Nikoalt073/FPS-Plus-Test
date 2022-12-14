@@ -1,5 +1,4 @@
-
-packagepackage mobile.flixel;
+package mobile.flixel;
 
 import flixel.FlxCamera;
 import flixel.FlxG;
