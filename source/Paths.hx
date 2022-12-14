@@ -33,7 +33,7 @@ class Paths
 			}
 		}
 		else if (type == 'music' || type == 'none')
-			trace('no cached assets clearing!');
+			trace('no unused assets clearing!');
 	}
 
 	public static function clearCachedAssets(type:String = 'none'):Void
