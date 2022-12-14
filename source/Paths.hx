@@ -82,7 +82,7 @@ class Paths
 		return path;
 	}
 
-	inline static public function image(key:String, ?location:String = "images"):FlxGraphic
+	inline static public function image(key:String, ?location:String = "images"):Dynamic
 	{
 		var path:String = file(key, location, extensions.get("image"));
 		return loadImage(path);
@@ -124,7 +124,7 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?location:String = "images"):FlxAtlasFrames
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, location), text(key, location));
 
-	public static function loadImage(path:String, ?addToCache:Bool = false):FlxGraphic
+	public static function loadImage(path:String, ?addToCache:Bool = false):Dynamic
 	{
 		if (Assets.exists(path, IMAGE))
 		{
@@ -143,7 +143,7 @@ class Paths
 				return imagesCache.get(path);
 			}
 			else
-				return FlxGraphic.fromAssetKey(path);
+				return path;
 		}
 		else
 			trace('$path is null!');
