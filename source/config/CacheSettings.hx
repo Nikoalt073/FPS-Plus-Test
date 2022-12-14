@@ -56,9 +56,12 @@ class CacheSettings extends MusicBeatState
 		keyTextDisplay.borderQuality = 1;
 		add(keyTextDisplay);
 
-		warning = new FlxText(0, 540, 1280,
-			"WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.",
-			32);
+		warning = new FlxText(0, 540, 1280, '', 32);
+		#if desktop
+		warning.text = "WARNING!\nEnabling this will load a large amount of graphics data to VRAM.\nIf you don't have a decent GPU it might be best to leave this disabled.";
+		#else
+		warning.text = "WARNING!\nEnabling this will load a large amount of graphics data to RAM.\nIf you don't have a decent device it might be best to leave this disabled.";
+		#end
 		warning.scrollFactor.set(0, 0);
 		warning.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		warning.borderSize = 3;
