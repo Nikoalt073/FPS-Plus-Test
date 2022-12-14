@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxGame;
+import flixel.FlxState;
 import openfl.display.Sprite;
 import openfl.system.System;
 
@@ -30,6 +31,13 @@ class Main extends Sprite
 		#else
 		addChild(new FlxGame(1280, 720, Startup, 1, framerate, framerate, true));
 		#end
+
+		// The best way to add assets clearing without to add it to a state directly.
+		FlxG.signals.preStateCreate.add(function(state:FlxState)
+		{
+			for (assets in ['graphics', 'music'])
+				Paths.clearNonCachedAssets(assets);
+		});
 
 		addChild(new Overlay(10, 3));
 
