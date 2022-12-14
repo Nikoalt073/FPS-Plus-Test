@@ -1045,6 +1045,8 @@ class PlayState extends MusicBeatState
 		add(bgDim);
 
 		super.create();
+
+		Paths.clearUnusedAssets('graphics');
 	}
 
 	function updateAccuracy()
