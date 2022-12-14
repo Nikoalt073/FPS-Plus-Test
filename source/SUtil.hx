@@ -107,7 +107,7 @@ class SUtil
 		});
 	}
 
-	private static function onError(e:UncaughtErrorEvent)
+	private static function onError(e:UncaughtErrorEvent):Void
 	{
 		var msg:String = '${e.error}\n';
 
