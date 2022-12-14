@@ -58,7 +58,7 @@ class CacheReload extends FlxState
 		}
 
 		if (doMusic)
-			Paths.clearCachedAssets('music');
+			Paths.clearCachedAssets('sounds');
 		else
 			songsCached = true;
 
