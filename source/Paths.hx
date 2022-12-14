@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.util.FlxDestroyUtil;
 import openfl.media.Sound;
 import openfl.utils.Assets;
 import openfl.system.System;
@@ -28,7 +29,7 @@ class Paths
 						Assets.cache.removeBitmapData(key);
 
 					FlxG.bitmap._cache.remove(key);
-					obj.destroy();
+					obj = FlxDestroyUtil.destroy(obj);
 				}
 			}
 		}
@@ -62,14 +63,16 @@ class Paths
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
 				if (obj != null && imagesCache.exists(key))
 				{
+					#if desktop
 					GPUBitmap.dispose(KEY(key));
+					#end
 
 					if (Assets.cache.hasBitmapData(key))
 						Assets.cache.removeBitmapData(key);
 
 					FlxG.bitmap._cache.remove(key);
 					imagesCache.remove(key);
-					obj.destroy();
+					obj = FlxDestroyUtil.destroy(obj);
 				}
 			}
 		}
@@ -173,7 +176,7 @@ class Paths
 			{
 				if (!imagesCache.exists(path))
 				{
-					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(GPUBitmap.create(path));
+					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 					graphic.persist = true;
 					graphic.destroyOnNoUse = false;
 					imagesCache.set(path, graphic);
