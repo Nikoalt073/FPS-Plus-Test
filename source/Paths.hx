@@ -123,7 +123,7 @@ class Paths
 		return path;
 	}
 
-	inline static public function image(key:String, ?location:String = "images"):Dynamic
+	inline static public function image(key:String, ?location:String = "images"):Any
 	{
 		var path:String = file(key, location, extensions.get("image"));
 		return loadImage(path);
@@ -165,7 +165,7 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?location:String = "images"):FlxAtlasFrames
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, location), text(key, location));
 
-	public static function loadImage(path:String, ?addToCache:Bool = false):Dynamic
+	public static function loadImage(path:String, ?addToCache:Bool = false):Any
 	{
 		if (Assets.exists(path, IMAGE))
 		{
