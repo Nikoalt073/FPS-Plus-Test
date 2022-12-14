@@ -62,7 +62,7 @@ class Paths
 			for (key in FlxG.bitmap._cache.keys())
 			{
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse))
+				if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse)))
 				{
 					#if desktop
 					GPUBitmap.dispose(KEY(key));

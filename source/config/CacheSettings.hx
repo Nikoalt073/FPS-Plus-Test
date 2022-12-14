@@ -98,6 +98,10 @@ class CacheSettings extends MusicBeatState
 		customTransIn = new WeirdBounceIn(0.6);
 		customTransOut = new WeirdBounceOut(0.6);
 
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
+
 		super.create();
 	}
 
