@@ -35,7 +35,7 @@ class Main extends Sprite
 		// The best way to add assets clearing without to add it to a state directly.
 		FlxG.signals.preStateCreate.add(function(state:FlxState)
 		{
-			for (assets in ['graphics', 'music'])
+			for (assets in ['graphics', 'sounds'])
 				Paths.clearNonCachedAssets(assets);
 		});
 
