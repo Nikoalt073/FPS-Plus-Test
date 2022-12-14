@@ -5,6 +5,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.media.Sound;
 import openfl.utils.Assets;
+import openfl.system.System;
 
 class Paths
 {
@@ -13,7 +14,7 @@ class Paths
 	private static var imagesCache:Map<String, FlxGraphic> = [];
 	private static var soundsCache:Map<String, Sound> = [];
 
-	public static function clearUnusedAssets(type:String = 'none'):Void
+	public static function clearNonCachedAssets(type:String = 'none'):Void
 	{
 		if (type == 'graphics')
 		{
@@ -21,7 +22,7 @@ class Paths
 			for (key in FlxG.bitmap._cache.keys())
 			{
 				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && obj.useCount <= 0 && !obj.persist && obj.destroyOnNoUse)
+				if (obj != null && (!imagesCache.exists(key) || (obj.useCount <= 0 && !obj.persist && obj.destroyOnNoUse)))
 				{
 					if (Assets.cache.hasBitmapData(key))
 						Assets.cache.removeBitmapData(key);
@@ -31,8 +32,24 @@ class Paths
 				}
 			}
 		}
-		else if (type == 'music' || type == 'none')
+		else if (type == 'music')
+		{
+			for (key in Assets.cache.getSoundKeys())
+			{
+				var obj:Sound = Assets.cache.getSound(key);
+				if (obj != null && !soundsCache.exists(key))
+				{
+					Assets.cache.removeSound(key);
+					soundsCache.remove(key);
+					obj.close();
+				}
+			}
+		}
+		else if (type == 'none')
 			trace('no unused assets clearing!');
+
+		if (type == 'graphics' || type == 'music')
+			System.gc();
 	}
 
 	public static function clearCachedAssets(type:String = 'none'):Void
@@ -71,6 +88,9 @@ class Paths
 		}
 		else if (type == 'none')
 			trace('no cached assets clearing!');
+
+		if (type == 'graphics' || type == 'music')
+			System.gc();
 	}
 
 	inline static public function file(key:String, location:String, extension:String):String
