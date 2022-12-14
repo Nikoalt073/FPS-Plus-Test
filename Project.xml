@@ -33,6 +33,7 @@
 	<assets path="assets/data" />
 	<assets path="assets/fonts" />
 	<assets path="assets/images" />
+	<assets path="assets/mobile" if="mobile" />
 	<assets path="assets/music" include="*.ogg" />
 	<assets path="assets/sounds" include="*.ogg" />
 	<assets path="assets/songs" include="*.ogg" />
