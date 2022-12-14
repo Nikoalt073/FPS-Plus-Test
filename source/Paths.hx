@@ -14,6 +14,28 @@ class Paths
 	private static var imagesCache:Map<String, FlxGraphic> = [];
 	private static var soundsCache:Map<String, Sound> = [];
 
+	public static function clearUnusedAssets(type:String = 'none'):Void
+	{
+		if (type == 'graphics')
+		{
+			@:privateAccess
+			for (key in FlxG.bitmap._cache.keys())
+			{
+				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
+				if (obj != null && obj.useCount <= 0 && !obj.persist && obj.destroyOnNoUse)
+				{
+					if (Assets.cache.hasBitmapData(key))
+						Assets.cache.removeBitmapData(key);
+
+					FlxG.bitmap._cache.remove(key);
+					obj = FlxDestroyUtil.destroy(obj);
+				}
+			}
+		}
+		else if (type == 'music' || type == 'none')
+			trace('no cached assets clearing!');
+	}
+
 	public static function clearCachedAssets(type:String = 'none'):Void
 	{
 		if (type == 'graphics')
