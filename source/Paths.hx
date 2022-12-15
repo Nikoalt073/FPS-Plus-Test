@@ -17,81 +17,78 @@ class Paths
 		"sounds" => []
 	];
 
-	public static function clearNonCachedAssets(type:String = 'none'):Void
+	public static function clearAssets(type:String = 'none', cached:Bool = false):Void
 	{
 		if (type == 'graphics')
 		{
-			@:privateAccess
-			for (key in FlxG.bitmap._cache.keys())
+			if (!cached)
 			{
-				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && (!assetsCache["graphics"].exists(key) || (!obj.persist && obj.destroyOnNoUse)))
+				@:privateAccess
+				for (key in FlxG.bitmap._cache.keys())
 				{
-					if (Assets.cache.hasBitmapData(key))
-						Assets.cache.removeBitmapData(key);
+					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
+					if (obj != null && (!assetsCache["graphics"].exists(key) || (!obj.persist && obj.destroyOnNoUse)))
+					{
+						if (Assets.cache.hasBitmapData(key))
+							Assets.cache.removeBitmapData(key);
 
-					FlxG.bitmap._cache.remove(key);
-					obj = FlxDestroyUtil.destroy(obj);
+						FlxG.bitmap._cache.remove(key);
+						obj = FlxDestroyUtil.destroy(obj);
+					}
+				}
+			}
+			else
+			{
+				@:privateAccess
+				for (key in FlxG.bitmap._cache.keys())
+				{
+					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
+					if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse)))
+					{
+						#if desktop
+						GPUBitmap.dispose(KEY(key));
+						#end
+
+						if (Assets.cache.hasBitmapData(key))
+							Assets.cache.removeBitmapData(key);
+
+						FlxG.bitmap._cache.remove(key);
+						assetsCache["graphics"].remove(key);
+						obj = FlxDestroyUtil.destroy(obj);
+					}
 				}
 			}
 		}
 		else if (type == 'sounds')
 		{
-			for (key in Assets.cache.getSoundKeys())
+			if (!cached)
 			{
-				var obj:Sound = Assets.cache.getSound(key);
-				if (obj != null && !assetsCache["sounds"].exists(key))
+				for (key in Assets.cache.getSoundKeys())
 				{
-					Assets.cache.removeSound(key);
-					obj.close();
+					var obj:Sound = Assets.cache.getSound(key);
+					if (obj != null && !assetsCache["sounds"].exists(key))
+					{
+						Assets.cache.removeSound(key);
+						obj.close();
+					}
+				}
+			}
+			else
+			{
+				for (key in Assets.cache.getSoundKeys())
+				{
+					var obj:Sound = Assets.cache.getSound(key);
+					if (obj != null && assetsCache["sounds"].exists(key))
+					{
+						Assets.cache.removeSound(key);
+						assetsCache["sounds"].remove(key);
+						obj.close();
+					}
 				}
 			}
 		}
 		else if (type == 'none')
-			trace('no unused assets clearing!');
-
-		if (type == 'graphics' || type == 'sounds')
-			System.gc();
-	}
-
-	public static function clearCachedAssets(type:String = 'none'):Void
-	{
-		if (type == 'graphics')
-		{
-			@:privateAccess
-			for (key in FlxG.bitmap._cache.keys())
-			{
-				var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse)))
-				{
-					#if desktop
-					GPUBitmap.dispose(KEY(key));
-					#end
-
-					if (Assets.cache.hasBitmapData(key))
-						Assets.cache.removeBitmapData(key);
-
-					FlxG.bitmap._cache.remove(key);
-					assetsCache["graphics"].remove(key);
-					obj = FlxDestroyUtil.destroy(obj);
-				}
-			}
-		}
-		else if (type == 'sounds')
-		{
-			for (key in Assets.cache.getSoundKeys())
-			{
-				var obj:Sound = Assets.cache.getSound(key);
-				if (obj != null && assetsCache["sounds"].exists(key))
-				{
-					Assets.cache.removeSound(key);
-					assetsCache["sounds"].remove(key);
-					obj.close();
-				}
-			}
-		}
-		else if (type == 'none')
-			trace('no cached assets clearing!');
+			trace('no assets clearing!');
 
 		if (type == 'graphics' || type == 'sounds')
 			System.gc();
