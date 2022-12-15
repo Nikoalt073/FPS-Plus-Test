@@ -1,5 +1,8 @@
 package;
 
+#if android
+import android.os.Build.VERSION;
+#end
 import haxe.Timer;
 import openfl.Lib;
 import openfl.events.Event;
@@ -7,7 +10,7 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
-enum GPUInfo
+enum GLInfo
 {
 	RENDERER;
 	SHADING_LANGUAGE_VERSION;
@@ -36,7 +39,7 @@ class Overlay extends TextField
 			while (times[0] < now - 1)
 				times.shift();
 
-			final frameRate:Int = Std.int(Lib.current.stage.frameRate);
+			final frameRate:Int = Main.framerate;
 			var currentFrames:Int = times.length;
 			if (currentFrames > frameRate)
 				currentFrames = frameRate;
@@ -59,7 +62,11 @@ class Overlay extends TextField
 				text.push('Memory: ${getInterval(totalMemory)} / ${getInterval(totalMemoryPeak)}');
 				text.push('GL Renderer: ${getInfo(RENDERER)}');
 				text.push('GL Shading Version: ${getInfo(SHADING_LANGUAGE_VERSION)}');
+				#if android
+				text.push('System: Android ${VERSION.RELEASE} (API ${VERSION.SDK_INT})');
+				#else
 				text.push('System: ${lime.system.System.platformLabel} ${lime.system.System.platformVersion}');
+				#end
 				this.text = text.join('\n') + '\n';
 			}
 		});
@@ -80,7 +87,7 @@ class Overlay extends TextField
 		return size + ' ' + intervalArray[data];
 	}
 
-	private function getInfo(info:GPUInfo):String
+	private function getInfo(info:GLInfo):String
 	{
 		@:privateAccess
 		var gl:Dynamic = Lib.current.stage.context3D.gl;
