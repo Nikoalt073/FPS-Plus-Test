@@ -36,7 +36,7 @@ class Main extends Sprite
 		FlxG.signals.preStateCreate.add(function(state:FlxState)
 		{
 			for (assets in ['graphics', 'sounds'])
-				Paths.clearNonCachedAssets(assets);
+				Paths.clearAssets(assets, false);
 		});
 
 		addChild(new Overlay(10, 3));
