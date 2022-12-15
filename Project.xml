@@ -57,7 +57,7 @@
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
-	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
+	<!--Optmize inputs, be careful you will get null errors if you don't use conditionals in your game-->
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
 
 	<!--Disable the Flixel core sound tray-->
@@ -71,6 +71,9 @@
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+
+	<!--Enables the Static Analyzer-->
+	<haxedef name="analyzer-optimize" />
 
 	<!--Allow working memory greater than 1 Gig-->
 	<haxedef name="HXCPP_GC_BIG_BLOCKS" />
