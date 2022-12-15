@@ -39,14 +39,14 @@ class Overlay extends TextField
 			while (times[0] < now - 1)
 				times.shift();
 
-			final frameRate:Int = Main.framerate;
+			final frameRate:Int = Std.int(Lib.current.stage.frameRate);
 			var currentFrames:Int = times.length;
 			if (currentFrames > frameRate)
 				currentFrames = frameRate;
 
-			if (currentFrames <= frameRate / 4)
+			if (currentFrames <= Main.framerate / 4)
 				textColor = 0xFFFF0000;
-			else if (currentFrames <= frameRate / 2)
+			else if (currentFrames <= Main.framerate / 2)
 				textColor = 0xFFFFFF00;
 			else
 				textColor = 0xFFFFFFFF;
