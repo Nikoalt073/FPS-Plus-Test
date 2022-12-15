@@ -17,6 +17,11 @@ class Paths
 		"sounds" => []
 	];
 
+	private static var trackedAssets:Map<String, Array<String>> = [
+		"graphics" => [],
+		"sounds" => []
+	];
+
 	public static function clearAssets(type:String = 'none', cached:Bool = false):Void
 	{
 		if (type == 'graphics')
@@ -170,22 +175,34 @@ class Paths
 	{
 		if (Assets.exists(path, IMAGE))
 		{
-			if (addToCache)
+			if (addToCache && !assetsCache["graphics"].exists(path))
 			{
-				if (!assetsCache["graphics"].exists(path))
-				{
-					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
-					graphic.persist = true;
-					graphic.destroyOnNoUse = false;
-					assetsCache["graphics"].set(path, graphic);
-				}
-				else
-					trace('$path is already loaded to the cache!');
+				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
+				graphic.persist = true;
+				graphic.destroyOnNoUse = false;
+				assetsCache["graphics"].set(path, graphic);
+
+				if (!trackedAssets["graphics"].contains(path))
+					trackedAssets["graphics"].push(path);
+
+				return assetsCache["graphics"].get(path);
+			}
+			else if (assetsCache["graphics"].exists(path))
+			{
+				trace('$path is already loaded to the cache!');
+
+				if (!trackedAssets["graphics"].contains(path))
+					trackedAssets["graphics"].push(path);
 
 				return assetsCache["graphics"].get(path);
 			}
 			else
+			{
+				if (!trackedAssets["graphics"].contains(path))
+					trackedAssets["graphics"].push(path);
+
 				return path;
+			}
 		}
 		else
 			trace('$path is null!');
@@ -197,17 +214,30 @@ class Paths
 	{
 		if (Assets.exists(path, SOUND))
 		{
-			if (addToCache)
+			if (addToCache && !assetsCache["sounds"].exists(path))
 			{
-				if (!assetsCache["sounds"].exists(path))
-					assetsCache["sounds"].set(path, Assets.getSound(path));
-				else
-					trace('$path is already loaded to the cache!');
+				assetsCache["sounds"].set(path, Assets.getSound(path));
+				if (!trackedAssets["sounds"].contains(path))
+					trackedAssets["sounds"].push(path);
+
+				return assetsCache["sounds"].get(path);
+			}
+			else if (assetsCache["sounds"].exists(path))
+			{
+				trace('$path is already loaded to the cache!');
+
+				if (!trackedAssets["sounds"].contains(path))
+					trackedAssets["sounds"].push(path);
 
 				return assetsCache["sounds"].get(path);
 			}
 			else
+			{
+				if (!trackedAssets["sounds"].contains(path))
+					trackedAssets["sounds"].push(path);
+
 				return Assets.getSound(path);
+			}
 		}
 		else
 			trace('$path is null!');
