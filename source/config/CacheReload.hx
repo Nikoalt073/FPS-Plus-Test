@@ -50,7 +50,7 @@ class CacheReload extends FlxState
 		graphicsCached = !FlxG.save.data.graphicsPreload2;
 
 		if (doGraphics)
-			Paths.clearCachedAssets('graphics');
+			Paths.clearAssets('graphics', true);
 		else
 		{
 			charactersCached = true;
@@ -58,7 +58,7 @@ class CacheReload extends FlxState
 		}
 
 		if (doMusic)
-			Paths.clearCachedAssets('sounds');
+			Paths.clearAssets('sounds', true);
 		else
 			songsCached = true;
 
