@@ -108,7 +108,7 @@ class MainMenuState extends MusicBeatState
 
 		#if mobile
 		addVirtualPad(UP_DOWN, A_B);
-		virtualPad.y = (FlxG.height - versionText.y) - 16;
+		virtualPad.y -= (FlxG.height - versionText.y) + 16;
 		#end
 
 		super.create();
