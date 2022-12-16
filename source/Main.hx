@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.FlxState;
 import openfl.display.Sprite;
 import openfl.system.System;
 
@@ -33,7 +32,7 @@ class Main extends Sprite
 		#end
 
 		// The best way to add assets clearing without to add it to a state directly.
-		FlxG.signals.preStateCreate.add(function(state:FlxState)
+		FlxG.signals.preStateSwitch.add(function()
 		{
 			for (assets in ['graphics', 'sounds'])
 				Paths.clearAssets(assets, false);
