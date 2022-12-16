@@ -62,15 +62,15 @@ class Paths
 				}
 				else if (type == UNUSED)
 				{
+					@:privateAccess
 					for (key in currentTrackedAssets["graphics"].keys())
 					{
 						var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-						if (obj != null && !assetsCache["graphics"].exists(key) && !trackedAssets["graphics"].contains(path))
+						if (obj != null && !assetsCache["graphics"].exists(key) && !trackedAssets["graphics"].contains(key))
 						{
 							if (Assets.cache.hasBitmapData(key))
 								Assets.cache.removeBitmapData(key);
 
-							@:privateAccess
 							FlxG.bitmap._cache.remove(key);
 							currentTrackedAssets["graphics"].remove(key);
 							obj = FlxDestroyUtil.destroy(obj);
@@ -109,7 +109,6 @@ class Paths
 			{
 				if (type == STORED)
 				{
-					@:privateAccess
 					for (key in Assets.cache.getSoundKeys())
 					{
 						var obj:Sound = Assets.cache.getSound(key);
@@ -129,7 +128,7 @@ class Paths
 					for (key in currentTrackedAssets["sounds"].keys())
 					{
 						var obj:Sound = Assets.cache.getSound(key);
-						if (obj != null && !assetsCache["sounds"].exists(key) && !trackedAssets["sounds"].contains(path))
+						if (obj != null && !assetsCache["sounds"].exists(key) && !trackedAssets["sounds"].contains(key))
 						{
 							if (Assets.cache.hasSound(key))
 								Assets.cache.removeSound(key);
