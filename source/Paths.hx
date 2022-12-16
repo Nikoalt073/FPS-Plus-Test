@@ -8,6 +8,13 @@ import openfl.media.Sound;
 import openfl.utils.Assets;
 import openfl.system.System;
 
+enum ClearingType
+{
+	CACHED;
+	STORED;
+	UNUSED;
+}
+
 class Paths
 {
 	public static final extensions:Map<String, String> = ["image" => "png", "audio" => "ogg", "video" => "mp4"];
@@ -17,28 +24,57 @@ class Paths
 		"sounds" => []
 	];
 
+	private static var currentTrackedAssets:Map<String, Map<String, Any>> = [
+		"graphics" => [],
+		"sounds" => []
+	];
+
 	private static var trackedAssets:Map<String, Array<String>> = [
 		"graphics" => [],
 		"sounds" => []
 	];
 
-	public static function clearAssets(type:String = 'none', cached:Bool = false):Void
+	public static function clearAssets(assets:String = 'none', type:ClearingType):Void
 	{
-		if (type == 'graphics')
+		if (assets == 'graphics')
 		{
-			if (!cached)
+			if (type != CACHED)
 			{
-				@:privateAccess
-				for (key in FlxG.bitmap._cache.keys())
+				if (type == STORED)
 				{
-					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-					if (obj != null && (!assetsCache["graphics"].exists(key) || (!obj.persist && obj.destroyOnNoUse)))
+					@:privateAccess
+					for (key in FlxG.bitmap._cache.keys())
 					{
-						if (Assets.cache.hasBitmapData(key))
-							Assets.cache.removeBitmapData(key);
+						var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
+						if (obj != null && !assetsCache["graphics"].exists(key) && !currentTrackedAssets["graphics"].exists(key))
+						{
+							if (Assets.cache.hasBitmapData(key))
+								Assets.cache.removeBitmapData(key);
 
-						FlxG.bitmap._cache.remove(key);
-						obj = FlxDestroyUtil.destroy(obj);
+							FlxG.bitmap._cache.remove(key);
+
+							if (trackedAssets["graphics"].contains(key))
+								trackedAssets["graphics"].remove(key);
+
+							obj = FlxDestroyUtil.destroy(obj);
+						}
+					}
+				}
+				else if (type == UNUSED)
+				{
+					@:privateAccess
+					for (key in currentTrackedAssets["graphics"].keys())
+					{
+						var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
+						if (obj != null && !assetsCache["graphics"].exists(key) && !trackedAssets["graphics"].contains(key))
+						{
+							if (Assets.cache.hasBitmapData(key))
+								Assets.cache.removeBitmapData(key);
+
+							FlxG.bitmap._cache.remove(key);
+							currentTrackedAssets["graphics"].remove(key);
+							obj = FlxDestroyUtil.destroy(obj);
+						}
 					}
 				}
 			}
@@ -48,7 +84,7 @@ class Paths
 				for (key in FlxG.bitmap._cache.keys())
 				{
 					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-					if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse)))
+					if (obj != null && assetsCache["graphics"].exists(key))
 					{
 						#if desktop
 						GPUBitmap.dispose(KEY(key));
@@ -67,17 +103,39 @@ class Paths
 				}
 			}
 		}
-		else if (type == 'sounds')
+		else if (assets == 'sounds')
 		{
-			if (!cached)
+			if (type != CACHED)
 			{
-				for (key in Assets.cache.getSoundKeys())
+				if (type == STORED)
 				{
-					var obj:Sound = Assets.cache.getSound(key);
-					if (obj != null && !assetsCache["sounds"].exists(key))
+					for (key in Assets.cache.getSoundKeys())
 					{
-						Assets.cache.removeSound(key);
-						obj.close();
+						var obj:Sound = Assets.cache.getSound(key);
+						if (obj != null && !assetsCache["sounds"].exists(key) && !currentTrackedAssets["sounds"].exists(key))
+						{
+							Assets.cache.removeSound(key);
+
+							if (trackedAssets["sounds"].contains(key))
+								trackedAssets["sounds"].remove(key);
+
+							obj.close();
+						}
+					}
+				}
+				else if (type == UNUSED)
+				{
+					for (key in currentTrackedAssets["sounds"].keys())
+					{
+						var obj:Sound = Assets.cache.getSound(key);
+						if (obj != null && !assetsCache["sounds"].exists(key) && !trackedAssets["sounds"].contains(key))
+						{
+							if (Assets.cache.hasSound(key))
+								Assets.cache.removeSound(key);
+
+							currentTrackedAssets["sounds"].remove(key);
+							obj.close();
+						}
 					}
 				}
 			}
@@ -95,10 +153,10 @@ class Paths
 				}
 			}
 		}
-		else if (type == 'none')
+		else if (assets == 'none')
 			trace('no assets clearing!');
 
-		if (type == 'graphics' || type == 'sounds')
+		if (assets == 'graphics' || assets == 'sounds')
 			System.gc();
 	}
 
@@ -132,7 +190,7 @@ class Paths
 		return path;
 	}
 
-	inline static public function image(key:String, ?location:String = "images"):Any
+	inline static public function image(key:String, ?location:String = "images"):FlxGraphic
 	{
 		var path:String = file(key, location, extensions.get("image"));
 		return loadImage(path);
@@ -174,7 +232,7 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?location:String = "images"):FlxAtlasFrames
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, location), text(key, location));
 
-	public static function loadImage(path:String, ?addToCache:Bool = false):Any
+	public static function loadImage(path:String, ?addToCache:Bool = false):FlxGraphic
 	{
 		if (Assets.exists(path, IMAGE))
 		{
@@ -182,29 +240,30 @@ class Paths
 			{
 				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 				graphic.persist = true;
-				graphic.destroyOnNoUse = false;
 				assetsCache["graphics"].set(path, graphic);
-
-				if (!trackedAssets["graphics"].contains(path))
-					trackedAssets["graphics"].push(path);
 
 				return assetsCache["graphics"].get(path);
 			}
 			else if (assetsCache["graphics"].exists(path))
 			{
 				trace('$path is already loaded to the cache!');
-
-				if (!trackedAssets["graphics"].contains(path))
-					trackedAssets["graphics"].push(path);
-
 				return assetsCache["graphics"].get(path);
 			}
 			else
 			{
+				if (!currentTrackedAssets["graphics"].exists(path))
+				{
+					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(Assets.getBitmapData(path));
+					graphic.persist = true;
+					currentTrackedAssets["graphics"].set(path, graphic);
+				}
+				else
+					trace('$path is already tracked!');
+
 				if (!trackedAssets["graphics"].contains(path))
 					trackedAssets["graphics"].push(path);
 
-				return path;
+				return currentTrackedAssets["graphics"].get(path);
 			}
 		}
 		else
@@ -220,26 +279,24 @@ class Paths
 			if (addToCache && !assetsCache["sounds"].exists(path))
 			{
 				assetsCache["sounds"].set(path, Assets.getSound(path));
-				if (!trackedAssets["sounds"].contains(path))
-					trackedAssets["sounds"].push(path);
-
 				return assetsCache["sounds"].get(path);
 			}
 			else if (assetsCache["sounds"].exists(path))
 			{
 				trace('$path is already loaded to the cache!');
-
-				if (!trackedAssets["sounds"].contains(path))
-					trackedAssets["sounds"].push(path);
-
 				return assetsCache["sounds"].get(path);
 			}
 			else
 			{
+				if (!currentTrackedAssets["sounds"].exists(path))
+					currentTrackedAssets["sounds"].set(path, Assets.getSound(path));
+				else
+					trace('$path is already tracked!');
+
 				if (!trackedAssets["sounds"].contains(path))
 					trackedAssets["sounds"].push(path);
 
-				return Assets.getSound(path);
+				return currentTrackedAssets["sounds"].get(path);
 			}
 		}
 		else
