@@ -32,7 +32,7 @@ class Paths
 				for (key in FlxG.bitmap._cache.keys())
 				{
 					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-					if (obj != null && (!assetsCache["graphics"].exists(key) || (!obj.persist && obj.destroyOnNoUse)))
+					if (obj != null && !assetsCache["graphics"].exists(key))
 					{
 						if (Assets.cache.hasBitmapData(key))
 							Assets.cache.removeBitmapData(key);
@@ -48,7 +48,7 @@ class Paths
 				for (key in FlxG.bitmap._cache.keys())
 				{
 					var obj:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-					if (obj != null && (assetsCache["graphics"].exists(key) || (obj.persist && !obj.destroyOnNoUse)))
+					if (obj != null && assetsCache["graphics"].exists(key))
 					{
 						#if desktop
 						GPUBitmap.dispose(KEY(key));
@@ -182,7 +182,6 @@ class Paths
 			{
 				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 				graphic.persist = true;
-				graphic.destroyOnNoUse = false;
 				assetsCache["graphics"].set(path, graphic);
 
 				return assetsCache["graphics"].get(path);
