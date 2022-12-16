@@ -38,7 +38,7 @@ class Main extends Sprite
 			for (assets in ['graphics', 'sounds'])
 			{
 				Paths.clearAssets(assets, STORED);
-				if (state != PlayState)
+				if (!(state is PlayState))
 					Paths.clearAssets(assets, UNUSED);
 			}
 		});
