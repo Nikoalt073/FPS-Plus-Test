@@ -58,7 +58,10 @@ class Paths
 							Assets.cache.removeBitmapData(key);
 
 						FlxG.bitmap._cache.remove(key);
-						assetsCache["graphics"].remove(key);
+
+						if (assetsCache["graphics"].exists(key)) // duble check
+							assetsCache["graphics"].remove(key);
+
 						obj = FlxDestroyUtil.destroy(obj);
 					}
 				}
