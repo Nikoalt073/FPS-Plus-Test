@@ -88,7 +88,7 @@ class ComboPopup extends FlxSpriteGroup
 		for (i in 0...combo.length)
 		{
 			var digit = new FlxSprite(numberPosition[X] + (numberInfo[WIDTH] * numberScale * i),
-				numberPosition[Y]).loadGraphic(numberInfo[GRAPHIC], true, numberInfo[WIDTH], numberInfo[HEIGHT]);
+				numberPosition[Y]).loadGraphic(Paths.image(numberInfo[GRAPHIC]), true, numberInfo[WIDTH], numberInfo[HEIGHT]);
 			digit.setGraphicSize(Std.int(digit.width * numberScale));
 			digit.antialiasing = numberInfo[AA];
 
@@ -124,7 +124,7 @@ class ComboPopup extends FlxSpriteGroup
 			return;
 		}
 
-		var ratingSprite = new FlxSprite(ratingPosition[X], ratingPosition[Y]).loadGraphic(ratingInfo[GRAPHIC], true, ratingInfo[WIDTH], ratingInfo[HEIGHT]);
+		var ratingSprite = new FlxSprite(ratingPosition[X], ratingPosition[Y]).loadGraphic(Paths.image(ratingInfo[GRAPHIC]), true, ratingInfo[WIDTH], ratingInfo[HEIGHT]);
 		ratingSprite.setGraphicSize(Std.int(ratingSprite.width * ratingScale));
 		ratingSprite.antialiasing = ratingInfo[AA];
 
@@ -153,7 +153,7 @@ class ComboPopup extends FlxSpriteGroup
 	**/
 	public function breakPopup():Void
 	{
-		var breakSprite = new FlxSprite(breakPosition[X], breakPosition[Y]).loadGraphic(comboBreakInfo[GRAPHIC]);
+		var breakSprite = new FlxSprite(breakPosition[X], breakPosition[Y]).loadGraphic(Paths.image(comboBreakInfo[GRAPHIC]));
 		breakSprite.setGraphicSize(Std.int(breakSprite.width * breakScale));
 		breakSprite.antialiasing = ratingInfo[AA];
 
