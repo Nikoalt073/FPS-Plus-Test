@@ -240,7 +240,6 @@ class Paths
 			{
 				var graphic:FlxGraphic = FlxGraphic.fromBitmapData(#if desktop GPUBitmap.create(path) #else Assets.getBitmapData(path) #end);
 				graphic.persist = true;
-				graphic.destroyOnNoUse = false;
 				assetsCache["graphics"].set(path, graphic);
 
 				return assetsCache["graphics"].get(path);
@@ -256,7 +255,6 @@ class Paths
 				{
 					var graphic:FlxGraphic = FlxGraphic.fromBitmapData(Assets.getBitmapData(path));
 					graphic.persist = true;
-					graphic.destroyOnNoUse = false;
 					currentTrackedAssets["graphics"].set(path, graphic);
 				}
 				else
