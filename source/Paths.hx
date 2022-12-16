@@ -24,12 +24,12 @@ class Paths
 		"sounds" => []
 	];
 
-	private static var trackedAssets:Map<String, Array<String>> = [
+	private static var currentTrackedAssets:Map<String, Map<String, Any>> = [
 		"graphics" => [],
 		"sounds" => []
 	];
 
-	private static var currentTrackedAssets:Map<String, Array<String>> = [
+	private static var trackedAssets:Map<String, Array<String>> = [
 		"graphics" => [],
 		"sounds" => []
 	];
@@ -53,8 +53,8 @@ class Paths
 
 							FlxG.bitmap._cache.remove(key);
 
-							if (trackedAssets["graphics"].contains(path))
-								trackedAssets["graphics"].push(path);
+							if (trackedAssets["graphics"].contains(key))
+								trackedAssets["graphics"].remove(key);
 
 							obj = FlxDestroyUtil.destroy(obj);
 						}
@@ -117,8 +117,8 @@ class Paths
 						{
 							Assets.cache.removeSound(key);
 
-							if (trackedAssets["sounds"].contains(path))
-								trackedAssets["sounds"].push(path);
+							if (trackedAssets["sounds"].contains(key))
+								trackedAssets["sounds"].remove(key);
 
 							obj.close();
 						}
