@@ -832,13 +832,13 @@ class PlayState extends MusicBeatState
 
 		if (!pixelSongs.contains(SONG.song.toLowerCase()))
 		{
-			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, [Paths.image("ratings"), 403, 163, true], [Paths.image("numbers"), 100, 120, true],
-				[Paths.image("comboBreak"), 348, 211, true]);
+			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, ["ratings", 403, 163, true], ["numbers", 100, 120, true],
+				["comboBreak", 348, 211, true]);
 		}
 		else
 		{
-			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, [Paths.image("weeb/pixelUI/ratings-pixel"), 51, 20, false],
-				[Paths.image("weeb/pixelUI/numbers-pixel"), 11, 12, false], [Paths.image("weeb/pixelUI/comboBreak-pixel"), 53, 32, false],
+			comboUI = new ComboPopup(boyfriend.x - 250, boyfriend.y - 75, ["weeb/pixelUI/ratings-pixel", 51, 20, false],
+				["weeb/pixelUI/numbers-pixel", 11, 12, false], ["weeb/pixelUI/comboBreak-pixel", 53, 32, false],
 				[daPixelZoom * 0.7, daPixelZoom * 0.8, daPixelZoom * 0.7]);
 			comboUI.numberPosition[0] -= 120;
 		}
