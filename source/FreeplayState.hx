@@ -17,12 +17,10 @@ class FreeplayState extends MusicBeatState
 	var songs:Array<SongMetadata> = [];
 
 	public static var startingSelection:Int = 0;
-
-	var selector:FlxText;
-
 	public static var curSelected:Int = 0;
 	static var curDifficulty:Int = 1;
 
+	var scoreBG:FlxSprite;
 	var scoreText:FlxText;
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
@@ -93,7 +91,7 @@ class FreeplayState extends MusicBeatState
 		scoreText.setFormat(Paths.font("vcr"), 32, FlxColor.WHITE, RIGHT);
 		// scoreText.alignment = RIGHT;
 
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
@@ -105,29 +103,6 @@ class FreeplayState extends MusicBeatState
 
 		changeSelection(startingSelection);
 		changeDiff();
-
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
-		selector = new FlxText();
-
-		selector.size = 40;
-		selector.text = ">";
-		// add(selector);
-
-		var swag:Alphabet = new Alphabet(1, 0, "swag");
-
-		// JUST DOIN THIS SHIT FOR TESTING!!!
-		/* 
-			var md:String = Markdown.markdownToHtml(Assets.getText('CHANGELOG.md'));
-			var texFel:TextField = new TextField();
-			texFel.width = FlxG.width;
-			texFel.height = FlxG.height;
-			// texFel.
-			texFel.htmlText = md;
-			FlxG.stage.addChild(texFel);
-			// scoreText.textField.htmlText = md;
-			trace(md);
-		 */
 
 		#if mobile
 		addVirtualPad(LEFT_FULL, A_B);
@@ -166,6 +141,11 @@ class FreeplayState extends MusicBeatState
 			lerpScore = intendedScore;
 
 		scoreText.text = "PERSONAL BEST:" + lerpScore;
+
+		scoreText.x = FlxG.width - scoreText.width - 6;
+		scoreBG.scale.x = FlxG.width - scoreText.x + 6;
+		scoreBG.x = FlxG.width - scoreBG.scale.x / 2;
+		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
 
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
@@ -225,11 +205,11 @@ class FreeplayState extends MusicBeatState
 		switch (curDifficulty)
 		{
 			case 0:
-				diffText.text = "EASY";
+				diffText.text = "< EASY >";
 			case 1:
-				diffText.text = 'NORMAL';
+				diffText.text = '< NORMAL >';
 			case 2:
-				diffText.text = "HARD";
+				diffText.text = "< HARD >";
 		}
 	}
 
