@@ -74,6 +74,7 @@ class PlayState extends MusicBeatState
 
 	private var canHit:Bool = false;
 	private var noMissCount:Int = 0;
+	private var noMissMode:Bool = false;
 
 	public static final stageSongs = ["tutorial", "bopeebo", "fresh", "dadbattle"]; // List isn't really used since stage is default, but whatever.
 	public static final spookySongs = ["spookeez", "south", "monster"];
@@ -293,6 +294,7 @@ class PlayState extends MusicBeatState
 
 		canHit = !(Config.ghostTapType > 0);
 		noMissCount = 0;
+		noMissMode = Config.healthDrainMultiplier != 0 ? true : false;
 		invulnCount = 0;
 
 		// var gameCam:FlxCamera = FlxG.camera;
@@ -1683,7 +1685,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if(Config.healthDrainMultiplier != 0) {
+		if(!noMissMode) {
 			switch (Config.accuracy)
 			{
 				case "none":
@@ -1969,7 +1971,7 @@ class PlayState extends MusicBeatState
 			{
 				if (daNote.alpha > 0.3)
 				{
-					if (Config.healthDrainMultiplier != 0) {
+					if (!noMissMode) {
 						noteMiss(daNote.noteData, 0.055, false, true);
 						vocals.volume = 0;
 					}
@@ -2471,8 +2473,8 @@ class PlayState extends MusicBeatState
 						case 0:
 							if (leftRelease)
 							{
+								if(!noMissMode){ vocals.volume = 0; }
 								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2481,8 +2483,8 @@ class PlayState extends MusicBeatState
 						case 1:
 							if (downRelease)
 							{
+								if(!noMissMode){ vocals.volume = 0; }
 								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2491,8 +2493,8 @@ class PlayState extends MusicBeatState
 						case 2:
 							if (upRelease)
 							{
+								if(!noMissMode){ vocals.volume = 0; }
 								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2501,8 +2503,8 @@ class PlayState extends MusicBeatState
 						case 3:
 							if (rightRelease)
 							{
+								if(!noMissMode){ vocals.volume = 0; }
 								noteMissWrongPress(daNote.noteData, 0.0475, true);
-								vocals.volume = 0;
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2614,7 +2616,7 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false):Void
 	{
-		if (!startingSong && (!invuln || skipInvCheck) && Config.healthDrainMultiplier != 0)
+		if (!startingSong && (!invuln || skipInvCheck) && !noMissMode)
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
 			if (combo > minCombo)
@@ -2699,7 +2701,7 @@ class PlayState extends MusicBeatState
 
 	function badNoteCheck(direction:Int = -1)
 	{
-		if (Config.ghostTapType > 0 && !canHit)
+		if ((Config.ghostTapType > 0 && !canHit) || noMissMode)
 		{
 		}
 		else
