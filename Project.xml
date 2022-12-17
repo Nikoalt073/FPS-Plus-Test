@@ -30,6 +30,7 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
+	<assets path="assets/characters" />
 	<assets path="assets/data" />
 	<assets path="assets/fonts" />
 	<assets path="assets/images" />
