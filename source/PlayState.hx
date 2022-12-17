@@ -2610,7 +2610,7 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, ?healthLoss:Float = 0.04, ?playAudio:Bool = true, ?skipInvCheck:Bool = false):Void
 	{
-		if (!startingSong && (!invuln || skipInvCheck))
+		if (!startingSong && (!invuln || skipInvCheck) && Config.healthDrainMultiplier != 0)
 		{
 			health -= healthLoss * Config.healthDrainMultiplier;
 			if (combo > minCombo)
@@ -3000,8 +3000,11 @@ class PlayState extends MusicBeatState
 
 		if (curBeat % bopSpeed == 0)
 		{
-			iconP1.iconScale = iconP1.defualtIconScale * 1.25;
-			iconP2.iconScale = iconP2.defualtIconScale * 1.25;
+			iconP1.iconScale = iconP1.defualtIconScale * 1.2;
+			iconP2.iconScale = iconP2.defualtIconScale * 1.2;
+	
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
 
 			iconP1.tweenToDefaultScale(0.2, FlxEase.quintOut);
 			iconP2.tweenToDefaultScale(0.2, FlxEase.quintOut);
