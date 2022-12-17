@@ -294,7 +294,7 @@ class PlayState extends MusicBeatState
 
 		canHit = !(Config.ghostTapType > 0);
 		noMissCount = 0;
-		noMissMode = Config.healthDrainMultiplier != 0 ? true : false;
+		noMissMode = Config.healthDrainMultiplier != 0 ? false : true;
 		invulnCount = 0;
 
 		// var gameCam:FlxCamera = FlxG.camera;
