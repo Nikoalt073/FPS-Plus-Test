@@ -1683,14 +1683,16 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		switch (Config.accuracy)
-		{
-			case "none":
-				scoreTxt.text = "Score:" + songScore;
-			default:
-				scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
+		if(Config.healthDrainMultiplier != 0) {
+			switch (Config.accuracy)
+			{
+				case "none":
+					scoreTxt.text = "Score:" + songScore;
+				default:
+					scoreTxt.text = "Score:" + songScore + " | Misses:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "%";
+			}
 		}
-
+		else{ scoreTxt.text = "| NO MISS |"; }
 		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -1963,7 +1965,7 @@ class PlayState extends MusicBeatState
 			daNote.x = targetX + daNote.xOffset;
 
 			// MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS
-			if (daNote.tooLate)
+			if (daNote.tooLate && Config.healthDrainMultiplier != 0)
 			{
 				if (daNote.alpha > 0.3)
 				{
