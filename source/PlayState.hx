@@ -1965,12 +1965,14 @@ class PlayState extends MusicBeatState
 			daNote.x = targetX + daNote.xOffset;
 
 			// MOVE NOTE TRANSPARENCY CODE BECAUSE REASONS
-			if (daNote.tooLate && Config.healthDrainMultiplier != 0)
+			if (daNote.tooLate)
 			{
 				if (daNote.alpha > 0.3)
 				{
-					noteMiss(daNote.noteData, 0.055, false, true);
-					vocals.volume = 0;
+					if (Config.healthDrainMultiplier != 0) {
+						noteMiss(daNote.noteData, 0.055, false, true);
+						vocals.volume = 0;
+					}
 					daNote.alpha = 0.3;
 				}
 			}
