@@ -2473,8 +2473,10 @@ class PlayState extends MusicBeatState
 						case 0:
 							if (leftRelease)
 							{
-								if(!noMissMode){ vocals.volume = 0; }
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								if(!noMissMode){ 
+									vocals.volume = 0; 
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
+								}
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2483,8 +2485,10 @@ class PlayState extends MusicBeatState
 						case 1:
 							if (downRelease)
 							{
-								if(!noMissMode){ vocals.volume = 0; }
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								if(!noMissMode){ 
+									vocals.volume = 0; 
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
+								}
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2493,8 +2497,10 @@ class PlayState extends MusicBeatState
 						case 2:
 							if (upRelease)
 							{
-								if(!noMissMode){ vocals.volume = 0; }
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								if(!noMissMode){ 
+									vocals.volume = 0; 
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
+								}
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
@@ -2503,8 +2509,10 @@ class PlayState extends MusicBeatState
 						case 3:
 							if (rightRelease)
 							{
-								if(!noMissMode){ vocals.volume = 0; }
-								noteMissWrongPress(daNote.noteData, 0.0475, true);
+								if(!noMissMode){ 
+									vocals.volume = 0; 
+									noteMissWrongPress(daNote.noteData, 0.0475, true);
+								}
 								daNote.tooLate = true;
 								daNote.destroy();
 								boyfriend.holdTimer = 0;
