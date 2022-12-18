@@ -22,7 +22,6 @@ using StringTools;
 
 class Startup extends FlxState
 {
-	var nextState:FlxState = new TitleVideo();
 
 	var splash:FlxSprite;
 	// var dummy:FlxSprite;
@@ -173,7 +172,10 @@ class Startup extends FlxState
 
 		if (splash.animation.curAnim.finished && splash.animation.curAnim.name == "end")
 		{
-			FlxG.switchState(nextState);
+			FlxG.camera.flash(FlxColor.WHITE, 60);
+			FlxG.sound.playMusic(Paths.music("klaskiiLoop"), 0.75);
+			Conductor.changeBPM(158);
+			FlxG.switchState(new TitleScreen());
 		}
 
 		if (songsCached
