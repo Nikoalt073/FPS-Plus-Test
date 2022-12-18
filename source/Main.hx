@@ -19,7 +19,6 @@ class Main extends Sprite
 		SUtil.uncaughtErrorHandler();
 
 		#if sys
-		novid = Sys.args().contains("-novid");
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
