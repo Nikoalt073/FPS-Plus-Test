@@ -9,7 +9,7 @@ class Main extends Sprite
 {
 	public static final framerate:Int = #if desktop 144 #else 60 #end;
 
-	public static var novid:Bool = true;
+	public static var novid:Bool = false;
 	public static var flippymode:Bool = false;
 
 	public function new()
@@ -19,6 +19,7 @@ class Main extends Sprite
 		SUtil.uncaughtErrorHandler();
 
 		#if sys
+		novid = Sys.args().contains("-novid");
 		flippymode = Sys.args().contains("-flippymode");
 		#end
 
