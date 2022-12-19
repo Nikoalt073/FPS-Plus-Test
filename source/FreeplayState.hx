@@ -201,7 +201,7 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		if(songs[curSelected].songName != "???" || songs[curSelected].songName != "Test") {
+		if(songs[curSelected].songName != "???" && songs[curSelected].songName != "Test") {
 			curDifficulty += change;
 		} else {
 			curDifficulty = 1;
