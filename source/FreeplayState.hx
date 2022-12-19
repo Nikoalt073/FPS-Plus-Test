@@ -245,7 +245,7 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
 		else {
-			FlxG.sound.music.fadeOut(1, 0, 0.8);
+			FlxG.sound.music.fadeOut(1, 0);
 		}
 		var bullShit:Int = 0;
 
