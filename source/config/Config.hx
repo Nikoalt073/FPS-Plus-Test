@@ -28,7 +28,7 @@ class Config
 		FlxG.save.data.downscroll = false;
 		FlxG.save.data.noteGlow = false;
 		FlxG.save.data.ghostTapType = 0;
-		FlxG.save.data.noFpsCap = true;
+		FlxG.save.data.noFpsCap = #if desktop true #else false #end;
 		FlxG.save.data.controllerScheme = 0;
 		reload();
 	}
@@ -87,7 +87,7 @@ class Config
 		if (FlxG.save.data.ghostTapType == null)
 			FlxG.save.data.ghostTapType = 0;
 		if (FlxG.save.data.noFpsCap == null)
-			FlxG.save.data.noFpsCap = true;
+			FlxG.save.data.noFpsCap = #if desktop true #else false #end;
 		if (FlxG.save.data.controllerScheme == null)
 			FlxG.save.data.controllerScheme = 0;
 		if (FlxG.save.data.bgDim == null)
