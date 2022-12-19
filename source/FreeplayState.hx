@@ -211,16 +211,17 @@ class FreeplayState extends MusicBeatState
 		#if !switch
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 		#end
-
-		switch (curDifficulty)
-		{
-			case 0:
-				diffText.text = "< EASY >";
-			case 1:
-				diffText.text = '< NORMAL >';
-			case 2:
-				diffText.text = "< HARD >";
-		}
+		if(songs[curSelected].songName != "???") {
+			switch (curDifficulty)
+			{
+				case 0:
+					diffText.text = "< EASY >";
+				case 1:
+					diffText.text = '< NORMAL >';
+				case 2:
+					diffText.text = "< HARD >";
+			}
+		} else { diffText.text = "< ??? >"; }
 	}
 
 	function changeSelection(change:Int = 0)
@@ -230,8 +231,7 @@ class FreeplayState extends MusicBeatState
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = songs.length - 1;
-		if (curSelected >= songs.length)
+			curSelected = songs.length - 1		if (curSelected >= songs.length)
 			curSelected = 0;
 
 		// selector.y = (70 * curSelected) + 30;
@@ -247,6 +247,7 @@ class FreeplayState extends MusicBeatState
 		}
 		else {
 			FlxG.sound.music.fadeOut(1, 0);
+			changeDiff();
 		}
 
 		var bullShit:Int = 0;
