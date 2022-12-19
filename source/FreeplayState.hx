@@ -240,10 +240,13 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 		// lerpScore = 0;
 		#end
-
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-		FlxG.sound.music.fadeIn(1, 0, 0.8);
-
+		if(songs[curSelected].songName != "???") {
+			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+			FlxG.sound.music.fadeIn(1, 0, 0.8);
+		}
+		else {
+			FlxG.sound.music.fadeOut(1, 0, 0.8);
+		}
 		var bullShit:Int = 0;
 
 		for (i in 0...iconArray.length)
