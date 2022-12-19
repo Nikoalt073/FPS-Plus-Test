@@ -78,9 +78,7 @@ class FreeplayState extends MusicBeatState
 
 			var icon:HealthIcon = new HealthIcon(songs[i].songCharacter, i);
 			icon.sprTracker = songText;
-			if(songs[i].songName == "???") {
-				icon.color = 0xFF000000; 
-			}
+			if(songs[i].songName == "???") { icon.color = 0xFF000000; }
 
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
