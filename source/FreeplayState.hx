@@ -231,7 +231,7 @@ class FreeplayState extends MusicBeatState
 		curSelected += change;
 
 		if (curSelected < 0)
-			curSelected = songs.length - 1
+			curSelected = songs.length - 1;
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
