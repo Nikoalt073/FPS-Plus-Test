@@ -179,13 +179,14 @@ class FreeplayState extends MusicBeatState
 			if(songs[curSelected].songName == "???") {
 				var poop:String = Highscore.formatSong("test", 1);
 				PlayState.SONG = Song.loadFromJson(poop, "test");
+				PlayState.storyDifficulty = 1;
 			}
 			else{
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+				PlayState.storyDifficulty = curDifficulty;
 			}
 			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
 			PlayState.loadEvents = true;
 			startingSelection = curSelected;
 			PlayState.returnLocation = "freeplay";
