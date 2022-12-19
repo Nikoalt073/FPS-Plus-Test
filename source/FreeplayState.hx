@@ -201,7 +201,11 @@ class FreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0)
 	{
-		curDifficulty += change;
+		if(songs[curSelected].songName != "???" || songs[curSelected].songName != "Test") {
+			curDifficulty += change;
+		} else {
+			curDifficulty = 1;
+		}
 
 		if (curDifficulty < 0)
 			curDifficulty = 2;
@@ -227,12 +231,7 @@ class FreeplayState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-
-		if(songs[curSelected].songName != "???" || songs[curSelected].songName != "Test") {
-			curSelected += change;
-		} else {
-			curSelected = 1;
-		}
+		curSelected += change;
 
 		if (curSelected < 0)
 			curSelected = songs.length - 1;
