@@ -379,6 +379,39 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				flipX = true;
+				case 'bf-pixel':
+					frames = Paths.getSparrowAtlas("weeb/bfPixel");
+					animation.addByPrefix('idle', 'BF IDLE', 24, false);
+					animation.addByPrefix('singUP', 'BF UP NOTE', 24, false);
+					animation.addByPrefix('singLEFT', 'BF LEFT NOTE', 24, false);
+					animation.addByPrefix('singRIGHT', 'BF RIGHT NOTE', 24, false);
+					animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
+					animation.addByPrefix('singUPmiss', 'BF UP MISS', 24, false);
+					animation.addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
+					animation.addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
+					animation.addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
+	
+					addOffset('idle');
+					addOffset("singUP", -6);
+					addOffset("singRIGHT");
+					addOffset("singLEFT", -12);
+					addOffset("singDOWN");
+					addOffset("singUPmiss", -6);
+					addOffset("singRIGHTmiss");
+					addOffset("singLEFTmiss", -12);
+					addOffset("singDOWNmiss");
+	
+					setGraphicSize(Std.int(width * 6));
+					updateHitbox();
+	
+					playAnim('idle');
+	
+					width -= 100;
+					height -= 100;
+	
+					antialiasing = false;
+	
+					flipX = true;
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas("weeb/bfPixelsDEAD");
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
@@ -396,7 +429,31 @@ class Character extends FlxSprite
 				updateHitbox();
 				antialiasing = false;
 				flipX = true;
-
+			case 'bf-pixel-enemy':
+				frames = Paths.getSparrowAtlas("weeb/bfPixel");
+				animation.addByPrefix('idle', 'BF IDLE', 24, false);
+				animation.addByPrefix('singUP', 'BF UP NOTE', 24, false);
+				animation.addByPrefix('singLEFT', 'BF RIGHT NOTE', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF LEFT NOTE', 24, false);
+				animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
+	
+				addOffset('idle', 0, 27);
+				addOffset("singUP", -6, 27);
+				addOffset("singRIGHT", 0, 27);
+				addOffset("singLEFT", -12, 27);
+				addOffset("singDOWN", 0, 27);
+	
+				setGraphicSize(Std.int(width * 6));
+				updateHitbox();
+	
+				playAnim('idle');
+	
+				width -= 100;
+				height -= 100;
+	
+				antialiasing = false;
+	
+				flipX = true;
 			case 'senpai':
 				frames = Paths.getSparrowAtlas("weeb/senpai");
 				animation.addByPrefix('idle', 'Senpai Idle', 24, false);
