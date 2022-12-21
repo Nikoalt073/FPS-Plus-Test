@@ -232,7 +232,7 @@ class Note extends FlxSprite
 
 			xOffset -= width / 2;
 
-			if (PlayState.curStage.startsWith('school'))
+			if (PlayState.curStage.startsWith('school') || (PlayState.curStage == 'test' && isEnemy == true))
 				xOffset += 30;
 
 			if (prevNote.isSustainNote)
