@@ -2138,7 +2138,7 @@ class PlayState extends MusicBeatState
 					if (Math.abs(daNote.noteData) == spr.ID)
 					{
 						spr.animation.play('confirm', true);
-						if (spr.animation.curAnim.name == 'confirm' && (!curStage.startsWith('school') && !curStage.startsWith('test')))
+						if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school') && curStage != 'test')
 						{
 							spr.centerOffsets();
 							spr.offset.x -= 14;
@@ -2668,7 +2668,7 @@ class PlayState extends MusicBeatState
 					// spr.alpha = 1;
 					spr.centerOffsets();
 
-					if (!curStage.startsWith('school') && (!curStage.startsWith('test') && player != 0))
+					if (!curStage.startsWith('school'))
 					{
 						spr.offset.x -= 14;
 						spr.offset.y -= 14;
