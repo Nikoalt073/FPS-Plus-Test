@@ -17,7 +17,7 @@ class Note extends FlxSprite
 	public var wasGoodHit:Bool = false;
 	public var prevNote:Note;
 	public var type:String = "";
-	private var isPlayer:Bool = false;
+	public var isEnemy:Bool = false;
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
@@ -39,7 +39,7 @@ class Note extends FlxSprite
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
-	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false, ?_isPlayer:Bool = false)
+	public function new(_strumTime:Float, _noteData:Int, _type:String, ?_editor = false, ?_prevNote:Note, ?_sustainNote:Bool = false, ?_isEnemy:Bool = false)
 	{
 		super();
 
@@ -51,7 +51,7 @@ class Note extends FlxSprite
 
 		prevNote = _prevNote;
 		isSustainNote = _sustainNote;
-		isPlayer = _isPlayer;
+		isEnemy = _isEnemy;
 
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
@@ -108,34 +108,7 @@ class Note extends FlxSprite
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 				updateHitbox();
 			case 'test':
-				if(isPlayer) {
-					frames = Paths.getSparrowAtlas('NOTE_assets');
-
-					animation.addByPrefix('greenScroll', 'green0');
-					animation.addByPrefix('redScroll', 'red0');
-					animation.addByPrefix('blueScroll', 'blue0');
-					animation.addByPrefix('purpleScroll', 'purple0');
-
-					animation.addByPrefix('purpleholdend', 'pruple end hold');
-					animation.addByPrefix('greenholdend', 'green hold end');
-					animation.addByPrefix('redholdend', 'red hold end');
-					animation.addByPrefix('blueholdend', 'blue hold end');
-
-					animation.addByPrefix('purplehold', 'purple hold piece');
-					animation.addByPrefix('greenhold', 'green hold piece');
-					animation.addByPrefix('redhold', 'red hold piece');
-					animation.addByPrefix('bluehold', 'blue hold piece');
-
-					animation.addByPrefix('purple glow', 'Purple Active');
-					animation.addByPrefix('green glow', 'Green Active');
-					animation.addByPrefix('red glow', 'Red Active');
-					animation.addByPrefix('blue glow', 'Blue Active');
-
-					setGraphicSize(Std.int(width * 0.7));
-					updateHitbox();
-					antialiasing = true;
-				}
-				else {
+				if(isEnemy) {
 					loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels'), true, 17, 17);
 
 					animation.add('greenScroll', [6]);
@@ -165,6 +138,33 @@ class Note extends FlxSprite
 
 					setGraphicSize(Std.int(width * PlayState.daPixelZoom));
 					updateHitbox();
+				}
+				else {
+					frames = Paths.getSparrowAtlas('NOTE_assets');
+
+					animation.addByPrefix('greenScroll', 'green0');
+					animation.addByPrefix('redScroll', 'red0');
+					animation.addByPrefix('blueScroll', 'blue0');
+					animation.addByPrefix('purpleScroll', 'purple0');
+
+					animation.addByPrefix('purpleholdend', 'pruple end hold');
+					animation.addByPrefix('greenholdend', 'green hold end');
+					animation.addByPrefix('redholdend', 'red hold end');
+					animation.addByPrefix('blueholdend', 'blue hold end');
+
+					animation.addByPrefix('purplehold', 'purple hold piece');
+					animation.addByPrefix('greenhold', 'green hold piece');
+					animation.addByPrefix('redhold', 'red hold piece');
+					animation.addByPrefix('bluehold', 'blue hold piece');
+
+					animation.addByPrefix('purple glow', 'Purple Active');
+					animation.addByPrefix('green glow', 'Green Active');
+					animation.addByPrefix('red glow', 'Red Active');
+					animation.addByPrefix('blue glow', 'Blue Active');
+
+					setGraphicSize(Std.int(width * 0.7));
+					updateHitbox();
+					antialiasing = true;
 				}
 			default:
 				frames = Paths.getSparrowAtlas('NOTE_assets');
