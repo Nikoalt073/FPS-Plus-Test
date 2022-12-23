@@ -693,6 +693,7 @@ class PlayState extends MusicBeatState
 		else if (stageCheck == 'test')
 		{
 			defaultCamZoom = 0.9;
+			dad.y += 500;
 			curStage = 'test';
 			var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image("stageback"));
 			// bg.setGraphicSize(Std.int(bg.width * 2.5));
