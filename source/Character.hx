@@ -437,11 +437,11 @@ class Character extends FlxSprite
 				animation.addByPrefix('singRIGHT', 'BF LEFT NOTE', 24, false);
 				animation.addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
 	
-				addOffset('idle', 0);
-				addOffset("singUP", -6);
-				addOffset("singRIGHT", 0);
-				addOffset("singLEFT", -12);
-				addOffset("singDOWN", 0);
+				addOffset('idle', 0, -100);
+				addOffset("singUP", -6, -100);
+				addOffset("singRIGHT", 0, -100);
+				addOffset("singLEFT", -12, -100);
+				addOffset("singDOWN", 0, -100);
 	
 				setGraphicSize(Std.int(width * 6));
 				updateHitbox();
